@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
+  MyHomePage({
     Key? key,
-    required this.title,
+    required this.email,
   }) : super(key: key);
 
-  final String title;
+  String? email;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -39,18 +39,13 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.blueAccent,
       appBar: AppBar(
         elevation: 10,
-        leading: Padding(
-          padding: const EdgeInsetsDirectional.only(bottom: 15),
-          child: IconButton(
-              onPressed: _decrementCounter,
-              icon: const Icon(
-                Icons.minimize,
-                color: Colors.white,
-                size: 30,
-              ),
-          ),
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+          icon: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: Text(widget.title),
+        title: const Text('Home'),
         actions: const [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -87,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Flexible(
                 flex: 2,
                 child: Text(
-                  'You have pushed the button this many times:',
+                  'Hello ${widget.email}!',
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

@@ -4,6 +4,8 @@ class DefaultMaterialButton extends StatelessWidget {
 
   final double radius;
   final double? elevation;
+  final double? height;
+  final double? width;
   final EdgeInsets? padding;
   final EdgeInsets? internalPadding;
   final EdgeInsets? margin;
@@ -16,6 +18,8 @@ class DefaultMaterialButton extends StatelessWidget {
   Key? key,
   this.radius = 10,
   this.elevation,
+  this.height = 50,
+  this.width = double.infinity,
   this.padding,
   this.internalPadding,
   this.margin,
@@ -30,6 +34,8 @@ class DefaultMaterialButton extends StatelessWidget {
     return Container(
       padding: padding,
       margin: margin,
+      width: width,
+      height: height,
       child: MaterialButton(
           onPressed: onPressed,
           elevation: elevation,

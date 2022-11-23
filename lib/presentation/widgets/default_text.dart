@@ -6,6 +6,7 @@ class DefaultText extends StatelessWidget {
   final TextAlign? textAlign;
   final Color? color;
   final double? fontSize;
+  final int? maxLines;
   final FontStyle? fontStyle;
   final FontWeight? fontWeight;
   final TextStyle? textStyle;
@@ -16,6 +17,7 @@ class DefaultText extends StatelessWidget {
     this.color,
     this.textAlign,
     this.fontSize,
+    this.maxLines,
     this.fontStyle,
     this.fontWeight,
     this.textStyle
@@ -27,6 +29,7 @@ class DefaultText extends StatelessWidget {
       text,
       overflow: overflow,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: textStyle != null
       ? textStyle!.copyWith(
         fontWeight: fontWeight,

@@ -33,6 +33,7 @@ dependencies:
   sizer: ^2.0.15
   fluttertoast: ^8.1.1
   flutter_svg: ^1.0.3
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:

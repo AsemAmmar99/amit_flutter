@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
 import '../widgets/default_material_button.dart';
+import 'package:amit_flutter/constants/screens.dart' as screens;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -189,6 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 16.sp
                         );
                       });
+                      Navigator.pushNamedAndRemoveUntil(context, screens.homeScreen, (route) => false, arguments: emailController.text);
                     }
                   },
                   radius: 20.sp,
