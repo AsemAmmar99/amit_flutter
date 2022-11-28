@@ -1,3 +1,4 @@
+import 'package:amit_flutter/data/local/my_cache.dart';
 import 'package:amit_flutter/presentation/widgets/default_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +7,7 @@ import 'package:sizer/sizer.dart';
 
 import '../widgets/default_material_button.dart';
 import 'package:amit_flutter/constants/screens.dart' as screens;
+import 'package:amit_flutter/constants/my_cache_keys.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,11 +16,12 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
+TextEditingController emailController = TextEditingController(text: MyCache.getString(key: MyCacheKeys.myEmail));
+TextEditingController passwordController = TextEditingController(text: MyCache.getString(key: MyCacheKeys.myPassword));
 var formKey = GlobalKey<FormState>();
 IconData suffixIcon = Icons.visibility_off_outlined;
 bool isHidden = true;
+
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -176,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
                 DefaultMaterialButton(
-                  margin: EdgeInsets.only(bottom: 2.h),
+                  margin: EdgeInsets.symmetric(horizontal: 19.w).copyWith(bottom: 2.h,),
                   onPressed: () {
                     if(formKey.currentState!.validate()){
                       setState(() {
@@ -190,6 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 16.sp
                         );
                       });
+                      MyCache.putString(key: MyCacheKeys.myEmail, value: emailController.text);
+                      MyCache.putString(key: MyCacheKeys.myPassword, value: passwordController.text);
                       Navigator.pushNamedAndRemoveUntil(context, screens.homeScreen, (route) => false, arguments: emailController.text);
                     }
                   },

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../widgets/default_text.dart';
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({
     Key? key,
@@ -16,6 +18,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _incrementCounter() {
     setState(() {});
@@ -36,22 +39,49 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        backgroundColor: Colors.indigo,
+        width: 60.w,
+        child: ListView(
+          children: [
+            DrawerHeader(
+                child: Column(
+                  children: [
+                    Icon(Icons.supervised_user_circle, size: 25.sp,),
+                    DefaultText(
+                      text: widget.email!,
+                      fontSize: 20.sp,
+                    ),
+                  ],
+                ),
+            ),
+            Column(
+              children: const [
+                ListTile(
+                  leading: Icon(Icons.home),
+                  title: DefaultText(text: 'Home'),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                ListTile(
+                  leading: Icon(Icons.favorite),
+                  title: DefaultText(text: 'Favourite'),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.blueAccent,
       appBar: AppBar(
         elevation: 10,
         leading: IconButton(
             onPressed: (){
-              Navigator.pop(context);
-            },
-          icon: const Icon(Icons.arrow_back_ios_new),
-        ),
+              _scaffoldKey.currentState!.openDrawer();
+        },
+            icon: const Icon(Icons.key_sharp)),
         title: const Text('Home'),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Icon(Icons.menu),
-          ),
-        ],
         backgroundColor: Colors.deepOrange,
       ),
       body: Center(

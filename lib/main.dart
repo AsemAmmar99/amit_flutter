@@ -1,8 +1,11 @@
+import 'package:amit_flutter/data/local/my_cache.dart';
 import 'package:amit_flutter/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await MyCache.init();
   runApp(MyApp());
 }
 

@@ -1,3 +1,4 @@
+import 'package:amit_flutter/constants/screens.dart';
 import 'package:amit_flutter/data/models/onboarding_model.dart';
 import 'package:amit_flutter/presentation/views/onboarding_item.dart';
 import 'package:amit_flutter/presentation/widgets/default_text.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../constants/my_cache_keys.dart';
+import '../../data/local/my_cache.dart';
 import '../widgets/default_material_button.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -18,6 +21,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   PageController onBoardingPageController = PageController();
+  bool isLast = false;
 
   final List<OnBoardingModel> onBoardingList = [
     OnBoardingModel(
@@ -37,6 +41,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     ),
   ];
 
+  void finishOnBoarding(BuildContext context, String screenName){
+    MyCache.putBoolean(key: MyCacheKeys.isOnBoardingViewed, value: isLast);
+    Navigator.of(context).pushNamedAndRemoveUntil(screenName, (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +54,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         elevation: 0,
         backgroundColor: Colors.deepPurple[900],
         actions: [
+          if(!isLast)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 2.w),
             child: CircleAvatar(
               radius: 20.sp,
               backgroundColor: Colors.purple,
               child: DefaultTextButton(
-                  onPressed: (){},
+                  onPressed: () => finishOnBoarding(context, loginScreen),
                   child: const DefaultText(
                     text: 'Skip',
                     color: Colors.white,
@@ -81,7 +91,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     itemCount: onBoardingList.length,
                     physics: const BouncingScrollPhysics(),
                     controller: onBoardingPageController,
-                    onPageChanged: (index){},
+                    onPageChanged: (index){
+                        if(index == onBoardingList.length-1){
+                          setState(() {
+                            isLast = true;
+                          });
+                        }else{
+                          setState(() {
+                            isLast = false;
+                          });
+                        }
+                    },
                   ),
                   ),
               Padding(
@@ -99,16 +119,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                 ),
               ),
-              DefaultMaterialButton(
-                  onPressed: (){},
-                  backgroundColor: Colors.transparent,
-                  margin: EdgeInsets.symmetric(horizontal: 8.w),
-                  height: 6.h,
-                  child: const DefaultText(
-                    text: 'Get Started',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+              Visibility(
+                visible: isLast,
+                child: DefaultMaterialButton(
+                    onPressed: () => finishOnBoarding(context, loginScreen),
+                    backgroundColor: Colors.transparent,
+                    margin: EdgeInsets.symmetric(horizontal: 8.w),
+                    height: 6.h,
+                    child: const DefaultText(
+                      text: 'Get Started',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 2.h),
