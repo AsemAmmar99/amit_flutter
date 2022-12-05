@@ -1,10 +1,12 @@
 import 'package:amit_flutter/presentation/screens/animation_screen.dart';
 import 'package:amit_flutter/presentation/screens/login_screen.dart';
-import 'package:amit_flutter/presentation/screens/my_app.dart';
+import 'package:amit_flutter/presentation/screens/counter_stream_builder.dart';
 import 'package:amit_flutter/constants/screens.dart' as screens;
 import 'package:amit_flutter/presentation/screens/onboarding_screen.dart';
 import 'package:amit_flutter/presentation/screens/whatsapp_home_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/counter_provider.dart';
 
 
 class AppRouter {
@@ -24,9 +26,11 @@ class AppRouter {
             return MaterialPageRoute(builder: (_) => const AnimationScreen());
             case screens.whatsappHomeScreen:
             return MaterialPageRoute(builder: (_) => const WhatsAppHomeScreen());
+            case screens.counterWithProviderScreen:
+            return MaterialPageRoute(builder: (_) => const CounterWithProvider());
           case screens.homeScreen:
-            final String email = settings.arguments as String;
-            return MaterialPageRoute(builder: (_) => MyHomePage(email: email,));
+            // final String email = settings.arguments as String;
+            return MaterialPageRoute(builder: (_) => const MyHomePage());
       default:
         return null;
     }

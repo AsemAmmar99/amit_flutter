@@ -1,16 +1,15 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../widgets/default_text.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({
+  const MyHomePage({
     Key? key,
-    required this.email,
   }) : super(key: key);
 
-  String? email;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -18,23 +17,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  late StreamController _streamController;
+  late Stream _stream;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+    @override
+    void initState() {
+    _streamController = StreamController();
+    _stream = _streamController.stream;
+    super.initState();
+  }
+
   void _incrementCounter() {
-    setState(() {});
-    _counter++;
-    if (kDebugMode) {
-      print(_counter);
-    }
+    _streamController.sink.add(_counter++);
   }
 
   void _decrementCounter() {
-      setState(() {});
-      _counter--;
-      if (kDebugMode) {
-        print(_counter);
-      }
-    }
+    _streamController.sink.add(_counter--);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Icon(Icons.supervised_user_circle, size: 25.sp,),
                     DefaultText(
-                      text: widget.email!,
+                      text: 'Counter',
                       fontSize: 20.sp,
                     ),
                   ],
@@ -83,6 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.key_sharp)),
         title: const Text('Home'),
         backgroundColor: Colors.deepOrange,
+        actions: [
+          IconButton(
+              onPressed: () => _decrementCounter(),
+              icon: const Icon(Icons.minimize)),
+        ],
       ),
       body: Center(
         child: Container(
@@ -112,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Flexible(
                 flex: 2,
                 child: Text(
-                  'Hello ${widget.email}!',
+                  'Hello!',
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -125,9 +130,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Flexible(
                 flex: 10,
-                child: Text(
-                  _counter.toString(),
-                  style: Theme.of(context).textTheme.headline4,
+                child: StreamBuilder(
+                  stream: _stream,
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data != null ? snapshot.data.toString() : '0',
+                      style: Theme.of(context).textTheme.headline4,
+                    );
+                  }
                 ),
               ),
             ],

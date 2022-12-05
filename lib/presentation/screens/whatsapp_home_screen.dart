@@ -1,3 +1,4 @@
+import 'package:amit_flutter/presentation/screens/whatsapp_chats_screen.dart';
 import 'package:amit_flutter/presentation/widgets/default_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -48,8 +49,6 @@ class _WhatsAppHomeScreenState extends State<WhatsAppHomeScreen> with TickerProv
                       unselectedLabelColor: textsColor,
                       tabs: [
                         Container(
-                          width: 1.w,
-                          margin: EdgeInsetsDirectional.only(end: 3.w),
                           alignment: AlignmentDirectional.centerStart,
                           child: const Tab(
                             child: Icon(Icons.groups),
@@ -106,9 +105,9 @@ class _WhatsAppHomeScreenState extends State<WhatsAppHomeScreen> with TickerProv
             },
             body: TabBarView(
               controller: tabController,
-              children: [
+              children: const [
                 FlutterLogo(),
-                Container(color: backgroundColor,),
+                WhatsAppChatsScreen(),
                 FlutterLogo(),
                 FlutterLogo(),
               ],
