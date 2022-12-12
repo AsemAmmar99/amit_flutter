@@ -1,3 +1,5 @@
+import 'package:amit_flutter/constants/my_cache_keys.dart';
+import 'package:amit_flutter/data/local/my_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -14,6 +16,7 @@ class ColorsPalette extends StatefulWidget {
 
 class _ColorsPaletteState extends State<ColorsPalette> {
   late ColorsCubit cubit;
+  int cachedColorIndex = MyCache.getInt(key: MyCacheKeys.selectedColorIndex);
 
   @override
   void initState() {
@@ -23,6 +26,7 @@ class _ColorsPaletteState extends State<ColorsPalette> {
 
   @override
   Widget build(BuildContext context) {
+    cubit.backgroundColor = cubit.colors.elementAt(cachedColorIndex);
     return Scaffold(
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
